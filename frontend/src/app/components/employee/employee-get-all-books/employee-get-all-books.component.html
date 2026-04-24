@@ -1,0 +1,81 @@
+<section class="employee-catalog">
+    <header class="employee-catalog__hero">
+        <p class="employee-catalog__eyebrow">Library Catalog</p>
+        <h2>Available Books</h2>
+        <p class="employee-catalog__subtitle">Browse the full collection and request, renew, or return books from one
+            workspace.</p>
+    </header>
+
+    <div class="hr-create-book__message hr-create-book__message--success" *ngIf="successMessage">
+        {{ successMessage }}
+    </div>
+
+    <div class="hr-create-book__message hr-create-book__message--success" *ngIf="errorActionMessage">
+        {{ errorActionMessage }}
+    </div>
+
+    <div class="employee-catalog__state" *ngIf="loading">
+        Loading books...
+    </div>
+
+    <div class="employee-catalog__state employee-catalog__state--error" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <div class="employee-catalog__state employee-catalog__state--empty"
+        *ngIf="!loading && !errorMessage && books.length === 0">
+        No books available.
+    </div>
+
+    <div class="employee-catalog__grid" *ngIf="!loading && books.length > 0">
+        <article *ngFor="let book of books" class="catalog-card">
+            <div class="catalog-card__top">
+                <div>
+                    <p class="catalog-card__category">{{ book.category }}</p>
+                    <h3>{{ book.title }}</h3>
+                </div>
+                <span class="catalog-card__availability" [ngClass]="{
+                    'catalog-card__availability--in': book.available_copies > 0,
+                    'catalog-card__availability--low': book.available_copies > 0 && book.available_copies <= 2,
+                    'catalog-card__availability--out': book.available_copies === 0
+                }">
+                    {{ book.available_copies > 0 ? (book.available_copies + ' available') : 'Unavailable' }}
+                </span>
+            </div>
+
+            <dl class="catalog-card__meta">
+                <div>
+                    <dt>Author</dt>
+                    <dd>{{ book.author }}</dd>
+                </div>
+                <div>
+                    <dt>ISBN</dt>
+                    <dd>{{ book.isbn }}</dd>
+                </div>
+                <div>
+                    <dt>Total Copies</dt>
+                    <dd>{{ book.total_copies }}</dd>
+                </div>
+                <div>
+                    <dt>Borrowed</dt>
+                    <dd>{{ book.total_copies - book.available_copies }}</dd>
+                </div>
+            </dl>
+
+            <div class="catalog-card__actions">
+                <button class="catalog-card__button catalog-card__button--primary" (click)="borrowBook(book.id)"
+                    [disabled]="book.available_copies === 0">
+                    Borrow
+                </button>
+
+                <button class="catalog-card__button" (click)="renewBook(book.borrow_id)" [disabled]="!book.borrow_id">
+                    Renew
+                </button>
+
+                <button class="catalog-card__button" (click)="returnBook(book.borrow_id)" [disabled]="!book.borrow_id">
+                    Return
+                </button>
+            </div>
+        </article>
+    </div>
+</section>

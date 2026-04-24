@@ -1,0 +1,31 @@
+<nav class="hr-nav">
+  <a class="hr-nav__brand" routerLink="/hr-dashboard">
+    <img class="hr-nav__logo" src="assets/logo.png" alt="Acxhange logo">
+  </a>
+
+  <div class="hr-nav__links">
+    <a class="hr-nav__link" routerLink="/hr-dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      Dashboard
+    </a>
+    <a class="hr-nav__link" routerLink="/add-book" routerLinkActive="active">
+      Add Book
+    </a>
+    <a class="hr-nav__link" routerLink="/view-requests" routerLinkActive="active">
+      Requests
+    </a>
+    <a class="hr-nav__link" routerLink="/hr-get-all-books" routerLinkActive="active">
+      Inventory
+    </a>
+    <a class="hr-nav__link" routerLink="/hr-get-all-users" routerLinkActive="active">
+      Users
+    </a>
+    <a class="hr-nav__link" routerLink="/hr-user-request-history" routerLinkActive="active">
+      History
+    </a>
+  </div>
+
+  <div class="hr-nav__actions">
+    <span class="hr-nav__role">Welcome {{ userName }}</span>
+    <button class="hr-nav__logout" (click)="logout()">Logout</button>
+  </div>
+</nav>

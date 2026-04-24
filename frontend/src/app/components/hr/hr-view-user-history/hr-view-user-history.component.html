@@ -1,0 +1,72 @@
+<section class="employee-catalog">
+
+    <header class="employee-catalog__hero">
+        <p class="employee-catalog__eyebrow">User Activity</p>
+        <h2>User Borrow History</h2>
+        <p class="employee-catalog__subtitle">
+            View all books borrowed, returned, or renewed by this user.
+        </p>
+    </header>
+
+    <label class="employee-catalog__search">
+        <input type="text" placeholder="Search by title, author, category, or status..." [(ngModel)]="searchText"
+            (input)="filterHistory()" class="employee-catalog__search-input" />
+    </label>
+
+    <div class="employee-catalog__state employee-catalog__state--empty"
+        *ngIf="!loading && history.length > 0 && filteredHistory.length === 0">
+        No history matched your search.
+    </div>
+
+    <!-- Loading -->
+    <div class="employee-catalog__state" *ngIf="loading">
+        Loading history...
+    </div>
+
+    <!-- Error -->
+    <div class="employee-catalog__state employee-catalog__state--error" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <!-- Empty -->
+    <div class="employee-catalog__state employee-catalog__state--empty" *ngIf="!loading && history.length === 0">
+        No history found.
+    </div>
+
+    <div class="employee-catalog__table-wrap" *ngIf="!loading && filteredHistory.length > 0">
+        <table class="employee-catalog__table">
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Borrow Date</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let item of filteredHistory">
+                    <td>{{ item.book?.title || '-' }}</td>
+                    <td>{{ item.book?.author || '-' }}</td>
+                    <td>{{ item.book?.category || '-' }}</td>
+                    <td>{{ item.borrow_date | date:'mediumDate' }}</td>
+                    <td>{{ item.due_date | date:'mediumDate' }}</td>
+                    <td>{{ item.return_date ? (item.return_date | date:'mediumDate') : 'Not returned' }}</td>
+                    <td>
+                        <span class="employee-catalog__status" [ngClass]="{
+                            'employee-catalog__status--returned': item.status === 'RETURNED',
+                            'employee-catalog__status--borrowed': item.status === 'BORROWED',
+                            'employee-catalog__status--overdue': item.status === 'OVERDUE'
+                        }">
+                            {{ item.status }}
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>

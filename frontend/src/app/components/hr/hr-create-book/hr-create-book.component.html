@@ -1,0 +1,71 @@
+<section class="hr-create-book">
+  <header class="hr-create-book__hero">
+    <p class="hr-create-book__eyebrow">HR Library Management</p>
+    <h2>Add New Book</h2>
+    <p class="hr-create-book__subtitle">
+      Create a new catalog entry and define how many copies are available to employees right away.
+    </p>
+  </header>
+
+  <div class="hr-create-book__message hr-create-book__message--success" *ngIf="message">
+    {{ message }}
+  </div>
+
+  <div class="hr-create-book__message hr-create-book__message--error" *ngIf="error">
+    {{ error }}
+  </div>
+
+  <div class="hr-create-book__layout">
+    <form class="hr-create-book__form" (ngSubmit)="onSubmit()" #bookForm="ngForm">
+      <div class="hr-create-book__grid">
+        <div class="form-field">
+          <label for="title">Title</label>
+          <input id="title" type="text" [(ngModel)]="book.title" name="title" required />
+        </div>
+
+        <div class="form-field">
+          <label for="bookNumber">Book Number</label>
+          <input id="bookNumber" type="text" [(ngModel)]="book.bookNumber" name="bookNumber" required />
+        </div>
+
+        <div class="form-field">
+          <label for="author">Author</label>
+          <input id="author" type="text" [(ngModel)]="book.author" name="author" required />
+        </div>
+
+        <div class="form-field">
+          <label for="isbn">ISBN</label>
+          <input id="isbn" type="text" [(ngModel)]="book.isbn" name="isbn" required />
+        </div>
+
+        <div class="form-field">
+          <label for="category">Category</label>
+          <input id="category" type="text" [(ngModel)]="book.category" name="category" />
+        </div>
+
+        <div class="form-field">
+          <label for="totalCopies">Total Copies</label>
+          <input id="totalCopies" type="number" [(ngModel)]="book.total_copies" name="total_copies" required />
+        </div>
+
+        <!-- <div class="form-field">
+          <label for="availableCopies">Available Copies</label>
+          <input id="availableCopies" type="number" [(ngModel)]="book.available_copies" name="available_copies" required />
+        </div> -->
+      </div>
+
+      <button class="hr-create-book__submit" type="submit" [disabled]="bookForm.invalid">
+        Create Book
+      </button>
+    </form>
+
+    <aside class="hr-create-book__panel">
+      <h3>Before you publish</h3>
+      <ul>
+        <li>Double-check the ISBN so duplicate records are avoided.</li>
+        <li>Keep available copies less than or equal to total copies.</li>
+        <li>Use a clear category to help employees browse faster.</li>
+      </ul>
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,92 @@
+<section class="employee-catalog">
+    <header class="employee-catalog__hero">
+        <p class="employee-catalog__eyebrow">Request Logs</p>
+        <h2>All Request History</h2>
+        <p class="employee-catalog__subtitle">
+            View and track all user borrowing requests.
+        </p>
+    </header>
+
+    <!-- Search -->
+    <div class="employee-catalog__search">
+        <input type="text" placeholder="Search by book, user or status..." [(ngModel)]="searchText"
+            (input)="onSearch()" class="employee-catalog__search-input" />
+    </div>
+
+    <!-- Messages -->
+    <div class="hr-create-book__message hr-create-book__message--success" *ngIf="successMessage">
+        {{ successMessage }}
+    </div>
+
+    <div class="hr-create-book__message hr-create-book__message--error" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <!-- Loading -->
+    <div class="employee-catalog__state" *ngIf="loading">
+        Loading request history...
+    </div>
+
+    <!-- Empty -->
+    <div class="employee-catalog__state employee-catalog__state--empty"
+        *ngIf="!loading && filteredRequests.length === 0">
+        No request history found.
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <button (click)="downloadExcel()" class="employee-catalog__action-button">
+            Download Excel
+        </button>
+    </div>
+
+    <!-- Request Table -->
+    <div class="employee-catalog__table-wrap" *ngIf="!loading && filteredRequests.length > 0">
+        <table class="employee-catalog__table">
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Book</th>
+                    <th>Employee</th>
+                    <th>Type</th>
+                    <th>Requested On</th>
+                    <th>Reviewed On</th>
+                    <th>Status</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let req of filteredRequests">
+                    <td>{{ req.id }}</td>
+                    <td>{{ req.book_title }}</td>
+                    <td>{{ req.user_name }}</td>
+                    <td>{{ req.request_type }}</td>
+                    <td>{{ req.request_date | date:'mediumDate' }}</td>
+                    <td>{{ req.return_date ? (req.return_date | date:'mediumDate') : 'N/A' }}</td>
+                    <td>
+                        <span class="employee-catalog__status" [ngClass]="{
+                            'employee-catalog__status--approved': req.status === 'APPROVED',
+                            'employee-catalog__status--rejected': req.status === 'REJECTED'
+                        }">
+                            {{ req.status }}
+                        </span>
+                    </td>
+                    <td>{{ req.remarks || '-' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <button (click)="page = page - 1; loadRequests()" [disabled]="page === 1">
+                Prev
+            </button>
+
+            <span>Page {{ page }}</span>
+
+            <button (click)="page = page + 1; loadRequests()" [disabled]="page * pageSize >= total">
+                Next
+            </button>
+        </div>
+
+    </div>
+</section>

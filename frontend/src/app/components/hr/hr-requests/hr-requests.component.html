@@ -1,0 +1,88 @@
+<section class="hr-requests">
+    <header class="hr-requests__hero">
+        <p class="hr-requests__eyebrow">Request Queue</p>
+        <h2>HR Book Requests</h2>
+        <p class="hr-requests__subtitle">
+            Review borrow, renewal, and return requests from employees and take action quickly.
+        </p>
+    </header>
+
+    <div class="hr-requests__filter">
+        <label class="hr-requests__filter-label">Filter by Request Type:</label>
+
+        <select class="hr-requests__filter-select" [(ngModel)]="selectedType" (change)="applyFilter()">
+            <option value="ALL">All</option>
+            <option value="BORROW">Borrow</option>
+            <option value="RETURN">Return</option>
+            <option value="RENEW">Renew</option>
+        </select>
+    </div>
+
+    <div *ngIf="message" class="hr-message" [ngClass]="{
+       'hr-message--success': messageType === 'success',
+       'hr-message--error': messageType === 'error'
+     }">
+        {{ message }}
+    </div>
+
+    <div class="hr-requests__state" *ngIf="loading">Loading requests...</div>
+
+    <div class="hr-requests__state hr-requests__state--empty" *ngIf="filteredRequests.length === 0 && !loading">
+        No pending requests.
+    </div>
+
+
+
+
+    <div class="hr-requests__grid" *ngIf="filteredRequests.length > 0 && !loading">
+        <article *ngFor="let req of filteredRequests" class="request-card">
+            <!-- <div class="hr-requests__grid" *ngIf="requests.length > 0 && !loading">
+            <article *ngFor="let req of requests" class="request-card"> -->
+            <div class="request-card__top">
+                <div>
+                    <p class="request-card__type">{{ req.request_type }}</p>
+                    <h3>{{ req.employee_name }}</h3>
+                    <p class="request-card__employee">{{ req.employee_id }}</p>
+                </div>
+
+                <span class="request-card__status" [ngClass]="{
+                    'request-card__status--pending': req.status === 'PENDING',
+                    'request-card__status--approved': req.status === 'APPROVED',
+                    'request-card__status--rejected': req.status === 'REJECTED'
+                }">
+                    {{ req.status }}
+                </span>
+            </div>
+
+            <dl class="request-card__meta">
+                <div>
+                    <dt>Book Name</dt>
+                    <dd>{{ req.book_name }}</dd>
+                </div>
+                <div>
+                    <dt>Requested At</dt>
+                    <dd>{{ req.requested_at | date:'mediumDate' }}</dd>
+                </div>
+            </dl>
+
+            <div class="request-card__actions" *ngIf="req.status === 'PENDING'">
+                <button class="request-card__button request-card__button--approve" (click)="review(req, true)">
+                    Approve
+                </button>
+
+                <button class="request-card__button request-card__button--reject" (click)="review(req, false)">
+                    Reject
+                </button>
+            </div>
+
+            <div *ngIf="req.status === 'PENDING'" class="request-card__remark">
+                <label class="request-card__remark-label" [for]="'remark-' + req.request_id">
+                    Remarks
+                </label>
+                <input [id]="'remark-' + req.request_id" type="text"
+                    placeholder="Add a note for rejection" [(ngModel)]="req.remarkInput"
+                    class="request-card__input" />
+            </div>
+        </article>
+    </div>
+</section>

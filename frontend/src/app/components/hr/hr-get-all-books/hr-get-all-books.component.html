@@ -1,0 +1,96 @@
+<section class="hr-catalog">
+    <header class="hr-catalog__hero">
+        <div>
+            <p class="hr-catalog__eyebrow">HR Inventory</p>
+            <h2>Available Books</h2>
+            <p class="hr-catalog__subtitle">Search the full catalog, manage requests, and inspect book-level history
+                from one screen.</p>
+        </div>
+
+        <label class="hr-catalog__search">
+            <span>Search books</span>
+            <input type="text" placeholder="Search by title, author, ISBN, or category" [(ngModel)]="searchText"
+                (input)="filterBooks()" />
+        </label>
+    </header>
+
+    <div *ngIf="message" class="hr-catalog__message" [ngClass]="{
+       'hr-catalog__message--success': messageType === 'success',
+       'hr-catalog__message--error': messageType === 'error'
+     }">
+        {{ message }}
+    </div>
+
+    <div class="hr-catalog__state" *ngIf="loading">
+        Loading books...
+    </div>
+
+    <div class="hr-catalog__state hr-catalog__state--error" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <div class="hr-catalog__state hr-catalog__state--empty" *ngIf="!loading && !errorMessage && books.length === 0">
+        No books available.
+    </div>
+
+    <div class="hr-catalog__state hr-catalog__state--empty"
+        *ngIf="!loading && !errorMessage && books.length > 0 && filteredBooks.length === 0">
+        No books matched your search.
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <button (click)="downloadExcel()" class="hr-catalog__action-button">
+            Download Excel
+        </button>
+    </div>
+
+    <div class="hr-catalog__table-wrap" *ngIf="!loading && filteredBooks.length > 0">
+        <table class="hr-catalog__table">
+            <thead>
+                <tr>
+                    <th>Book ID</th>
+                    <th>Title</th>
+                    <th>Book No.</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>ISBN</th>
+                    <th>Total Copies</th>
+                    <th>Available</th>
+                    <th>Borrowed</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let book of filteredBooks">
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.bookNumber || '-' }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.category || 'General' }}</td>
+                    <td>{{ book.isbn }}</td>
+                    <td>{{ book.total_copies }}</td>
+                    <td>{{ book.available_copies }}</td>
+                    <td>{{ book.total_copies - book.available_copies }}</td>
+                    <td>
+                        <span class="hr-catalog__status" [ngClass]="{
+                            'hr-catalog__status--in': book.available_copies > 2,
+                            'hr-catalog__status--low': book.available_copies > 0 && book.available_copies <= 2,
+                            'hr-catalog__status--out': book.available_copies === 0
+                        }">
+                            {{ book.available_copies > 0 ? (book.available_copies + ' available') : 'Unavailable' }}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="hr-catalog__action-button" (click)="viewHistory(book.id)">
+                            View History
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+
+</section>
