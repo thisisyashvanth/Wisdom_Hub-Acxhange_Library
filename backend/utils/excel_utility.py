@@ -81,9 +81,31 @@ def generate_books_excel(books: list):
     ]
     ws.append(headers)
 
+    # for book in books:
+    #     total_copies = book.get("total_copies") or 0
+    #     available_copies = book.get("available_copies") or 0
+
+    #     if available_copies == 0:
+    #         status = "Unavailable"
+    #     else:
+    #         status = f"{available_copies} available"
+
+    #     ws.append([
+    #         book.get("id"),
+    #         book.get("title"),
+    #         book.get("bookNumber"),
+    #         book.get("author"),
+    #         book.get("category"),
+    #         book.get("isbn"),
+    #         total_copies,
+    #         available_copies,
+    #         total_copies - available_copies,
+    #         status
+    #     ])
+
     for book in books:
-        total_copies = book.get("total_copies") or 0
-        available_copies = book.get("available_copies") or 0
+        total_copies = int(book.get("total_copies") or 0)
+        available_copies = int(book.get("available_copies") or 0)
 
         if available_copies == 0:
             status = "Unavailable"

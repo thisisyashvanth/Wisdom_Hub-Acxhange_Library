@@ -22,6 +22,10 @@ def create_book(book: CreateBookReq):
 def get_all_books():
     return book_model.get_all_books()
 
+# Pagination Version
+# def get_all_books(limit: int = 10, last_key: dict | None = None):
+#     return book_model.get_all_books(limit, last_key)
+
 
 def get_book(book_id: str):
     book = book_model.get_book_by_id(book_id)

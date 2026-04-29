@@ -48,7 +48,7 @@
         <table class="hr-catalog__table">
             <thead>
                 <tr>
-                    <th>Book ID</th>
+                    <!-- <th>Book ID</th> -->
                     <th>Title</th>
                     <th>Book No.</th>
                     <th>Author</th>
@@ -63,7 +63,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let book of filteredBooks">
-                    <td>{{ book.id }}</td>
+                    <!-- <td>{{ book.id }}</td> -->
                     <td>{{ book.title }}</td>
                     <td>{{ book.bookNumber || '-' }}</td>
                     <td>{{ book.author }}</td>
@@ -90,7 +90,10 @@
             </tbody>
         </table>
 
+        <!-- Pagination -->
+        <!-- <button *ngIf="lastKey && !loading" (click)="getAllBooks(true)"
+            class="hr-catalog__action-button hr-catalog__load-more">
+            Load More
+        </button> -->
     </div>
-
-
 </section>

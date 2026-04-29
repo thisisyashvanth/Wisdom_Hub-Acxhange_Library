@@ -40,6 +40,31 @@ export class EmployeeGetAllBooksComponent {
     });
   }
 
+  
+  // Pagination Version
+  // lastKey: any = null;
+
+  // getAllBooks(loadMore: boolean = false) {
+  //   this.loading = true;
+
+  //   this.bookService.getAllBooks(9, this.lastKey).subscribe({
+  //     next: (res: any) => {
+  //       if (loadMore) {
+  //         this.books = [...this.books, ...res.items];
+  //       } else {
+  //         this.books = res.items;
+  //       }
+
+  //       this.lastKey = res.last_key;
+  //       this.loading = false;
+  //     },
+  //     error: () => {
+  //       this.loading = false;
+  //       this.errorMessage = 'Failed to load books';
+  //     }
+  //   });
+  // }
+
 
   borrowBook(bookId: number) {
     this.requestService.borrow(bookId)
@@ -55,33 +80,33 @@ export class EmployeeGetAllBooksComponent {
       });
   }
 
-  renewBook(borrowId: number) {
-    this.requestService.renew(borrowId)
-      .subscribe({
-        next: () => {
-          this.successMessage = 'Renew Request Sent Successfully';
-          // alert('Renew request sent');
-        },
-        error: (err) => {
-          this.errorActionMessage = err.error?.detail || 'Renew Failed';
-          // alert(err.error.detail);
-        }
-      });
-  }
+  // renewBook(borrowId: number) {
+  //   this.requestService.renew(borrowId)
+  //     .subscribe({
+  //       next: () => {
+  //         this.successMessage = 'Renew Request Sent Successfully';
+  //         // alert('Renew request sent');
+  //       },
+  //       error: (err) => {
+  //         this.errorActionMessage = err.error?.detail || 'Renew Failed';
+  //         // alert(err.error.detail);
+  //       }
+  //     });
+  // }
 
-  returnBook(borrowId: number) {
-    this.requestService.returnBook(borrowId)
-      .subscribe({
-        next: () => {
-          this.successMessage = 'Return Request Sent Successfully';
-          // alert('Return request sent');
-        },
-        error: (err) => {
-          this.errorActionMessage = err.error?.detail || 'Return Failed';
-          // alert(err.error.detail);
-        }
-      });
-  }
+  // returnBook(borrowId: number) {
+  //   this.requestService.returnBook(borrowId)
+  //     .subscribe({
+  //       next: () => {
+  //         this.successMessage = 'Return Request Sent Successfully';
+  //         // alert('Return request sent');
+  //       },
+  //       error: (err) => {
+  //         this.errorActionMessage = err.error?.detail || 'Return Failed';
+  //         // alert(err.error.detail);
+  //       }
+  //     });
+  // }
 
   clearMessages() {
     this.successMessage = '';

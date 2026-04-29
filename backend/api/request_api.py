@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
+from models import user_model
 from security.dependency import get_current_user, require_hr
 from services.request_service import (
-    lift_expired_restrictions, create_borrow_request, create_renew_request,
+    create_borrow_request, create_renew_request,
     create_return_request, review_request, check_and_flag_overdue, 
-    get_all_requests, get_my_requests,
+    get_my_requests,
 )
 from schemas.request_schema import ReviewRequestBody
 from typing import List
@@ -16,7 +17,7 @@ router = APIRouter(prefix="/request", tags=["Requests"])
 
 @router.post("/borrow/{book_id}")
 def request_borrow(book_id: str, user=Depends(get_current_user)):
-    lift_expired_restrictions()
+    # lift_expired_restrictions()
     try:
         return create_borrow_request(book_id, user)
     except Exception as e:
@@ -55,12 +56,12 @@ def check_overdue(hr=Depends(require_hr)):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.post("/admin/lift-restrictions")
-def lift_restrictions(hr=Depends(require_hr)):
-    try:
-        return lift_expired_restrictions()
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+# @router.post("/admin/lift-restrictions")
+# def lift_restrictions(hr=Depends(require_hr)):
+#     try:
+#         return lift_expired_restrictions()
+#     except Exception as e:
+#         raise HTTPException(status_code=400, detail=str(e))
 
 
 @router.get("/requests")
@@ -118,3 +119,16 @@ def get_my_requests_endpoint(user=Depends(get_current_user)):
         }
         for r in requests
     ]
+
+
+@router.post("/set-restriction/{user_id}")
+def set_user_restriction(user_id: str, restrict: bool, hr=Depends(require_hr)):
+    try:
+        update_data = {
+            "is_restricted": restrict,
+            "restricted_until": None  # optional, since HR controls it
+        }
+        user_model.update_user(user_id, update_data)
+        return {"message": "Restriction Updated"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

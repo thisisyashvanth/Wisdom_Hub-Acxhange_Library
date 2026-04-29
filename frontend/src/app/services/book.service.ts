@@ -18,6 +18,17 @@ export class BookService {
     return this.http.get(`${this.baseUrl}/get-all`);
   }
 
+  // Pagination Version
+  // getAllBooks(limit: number, lastKey?: any): Observable<any> {
+  //   let params: any = { limit };
+
+  //   if (lastKey) {
+  //     params.last_key = JSON.stringify(lastKey);
+  //   }
+
+  //   return this.http.get(`${this.baseUrl}/get-all`, { params });
+  // }
+
   addBook(req: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/add`, req);
   }

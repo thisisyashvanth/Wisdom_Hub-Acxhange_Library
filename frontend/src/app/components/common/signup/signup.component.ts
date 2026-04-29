@@ -10,6 +10,23 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class SignupComponent {
 
+  passwordMatchValidator(form: FormGroup) {
+    const password = form.get('password');
+    const confirmPassword = form.get('cPassword');
+
+    if (!password || !confirmPassword) return;
+
+    if (password.value !== confirmPassword.value) {
+      confirmPassword.setErrors({ ...confirmPassword.errors, mismatch: true });
+    } else {
+      if (confirmPassword.hasError('mismatch')) {
+        const errors = { ...confirmPassword.errors };
+        delete errors['mismatch'];
+        confirmPassword.setErrors(Object.keys(errors).length ? errors : null);
+      }
+    }
+  }
+
   signupForm: FormGroup;
   loading: boolean = false;
   errorMessage: string = '';
@@ -23,7 +40,10 @@ export class SignupComponent {
       employeeId: ['', Validators.required],
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      cPassword: ['', [Validators.required, Validators.minLength(6)]],
+    }, {
+      validators: this.passwordMatchValidator
     });
   }
 

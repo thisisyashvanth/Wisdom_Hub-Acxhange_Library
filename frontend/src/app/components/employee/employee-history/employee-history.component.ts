@@ -19,25 +19,28 @@ export class EmployeeHistoryComponent {
   message: string = '';
   messageType: 'success' | 'error' | '' = '';
 
+  
   constructor(
     private requestService: RequestService,
     private authService: AuthService
   ) { }
-
+  
   ngOnInit() {
     if (!this.authService.getToken()) {
       this.showMessage('User not logged in', 'error');
       return;
     }
-
+    
     this.loadHistory();
   }
-
+    
   loadHistory() {
-    this.loading = true;
 
+    this.loading = true;
+    
     this.requestService.getMyRequests().subscribe({
       next: (res) => {
+        console.log(res);
 
         this.history = res;
         this.filteredHistory = res;

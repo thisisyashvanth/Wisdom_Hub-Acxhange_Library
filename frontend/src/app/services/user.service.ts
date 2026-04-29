@@ -28,4 +28,8 @@ export class UserService {
   getUserById(userId: string) {
     return this.http.get(`${this.baseUrl}/${userId}`);
   }
+
+  deleteUser(userId: string) {
+    return this.http.delete(`${this.baseUrl}/${userId}`)
+  }
 }

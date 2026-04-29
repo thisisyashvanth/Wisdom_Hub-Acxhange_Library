@@ -2,7 +2,7 @@ from core.database import get_table
 import uuid
 
 
-TABLE = "acxhange-library-books"
+TABLE = "acxhange-library-bookss"
 
 
 def _table():
@@ -52,6 +52,22 @@ def get_book_by_number(book_number: str) -> dict | None:
 def get_all_books() -> list:
     resp = _table().scan()
     return resp.get("Items", [])
+
+# Pagination Version
+# def get_all_books(limit: int = 10, last_key: dict | None = None):
+#     params = {
+#         "Limit": limit
+#     }
+
+#     if last_key:
+#         params["ExclusiveStartKey"] = last_key
+
+#     resp = _table().scan(**params)
+
+#     return {
+#         "items": resp.get("Items", []),
+#         "last_key": resp.get("LastEvaluatedKey")
+#     }
 
 
 def update_book(book_id: str, updates: dict) -> dict:

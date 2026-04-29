@@ -14,6 +14,7 @@ export interface RequestItem {
   requested_at: string;
   reviewed_at?: string;
   remarks?: string;
+  is_restricted?: boolean;
 }
 
 export interface PaginatedRequests {
@@ -79,5 +80,15 @@ export class RequestService {
 
   getMyRequests() {
     return this.http.get<any[]>(`${this.baseUrl}/my-requests`);
+  }
+
+  setUserRestriction(userId: string, restrict: boolean): Observable<any> {
+    const params = new HttpParams().set('restrict', restrict);
+
+    return this.http.post(
+      `${this.baseUrl}/set-restriction/${userId}`,
+      {},
+      { params }
+    );
   }
 }

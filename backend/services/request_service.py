@@ -7,6 +7,17 @@ from models.borrow_model import TransactionStatus
 MAX_RENEWALS = 1
 RESTRICTION_DAYS = 30
 
+from models.book_model import get_book_by_id
+
+def attach_book_name(requests: list) -> list:
+    for r in requests:
+        book = get_book_by_id(r["book_id"])
+        if book:
+            r["book_name"] = book.get("title", "Unknown Book")
+        else:
+            r["book_name"] = "Unknown Book"
+    return requests
+
 
 def _get_fourth_tuesday(from_date: datetime) -> datetime:
     d = from_date.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -178,11 +189,24 @@ def _approve_renew(req: dict):
     })
 
 
-def _approve_return(req: dict):
-    borrow = borrow_model.get_borrow_by_id(req["borrow_id"])
-    if not borrow:
-        raise Exception("Borrow record not found")
+# def _approve_return(req: dict):
+#     borrow = borrow_model.get_borrow_by_id(req["borrow_id"])
+#     if not borrow:
+#         raise Exception("Borrow record not found")
 
+#     borrow_model.update_borrow(borrow["id"], {
+#         "status": TransactionStatus.RETURNED.value,
+#         "returned_date": datetime.now(timezone.utc).isoformat(),
+#     })
+
+#     book = book_model.get_book_by_id(borrow["book_id"])
+#     if book:
+#         book_model.update_book(book["id"], {
+#             "available_copies": int(book["available_copies"]) + 1
+#         })
+
+
+def _return_borrow_core(borrow: dict):
     borrow_model.update_borrow(borrow["id"], {
         "status": TransactionStatus.RETURNED.value,
         "returned_date": datetime.now(timezone.utc).isoformat(),
@@ -195,53 +219,88 @@ def _approve_return(req: dict):
         })
 
 
+def _approve_return(req: dict):
+    borrow = borrow_model.get_borrow_by_id(req["borrow_id"])
+    if not borrow:
+        raise Exception("Borrow record not found")
+
+    _return_borrow_core(borrow)
+
+
 def check_and_flag_overdue():
     now = datetime.now(timezone.utc)
     active_records = borrow_model.get_borrows_by_status(TransactionStatus.ACTIVE.value)
-    restricted_users = []
+
+    overdue_count = 0
 
     for record in active_records:
         due_date = datetime.fromisoformat(record["due_date"])
+
         if due_date.tzinfo is None:
             due_date = due_date.replace(tzinfo=timezone.utc)
 
         if due_date < now:
-            borrow_model.update_borrow(record["id"], {"status": TransactionStatus.OVERDUE.value})
+            overdue_count += 1
 
-            user = user_model.get_user_by_id(record["user_id"])
-            if user and not user.get("is_restricted"):
-                restricted_until = now + timedelta(days=RESTRICTION_DAYS)
-                user_model.update_user(record["user_id"], {
-                    "is_restricted": True,
-                    "restricted_until": restricted_until.isoformat(),
-                })
-                restricted_users.append(user["name"])
-
-    return {"overdue_count": len(active_records), "restricted_users": restricted_users}
-
-
-def lift_expired_restrictions():
-    now = datetime.now(timezone.utc)
-    all_users = user_model.get_all_users()
-    lifted = 0
-
-    for user in all_users:
-        if not user.get("is_restricted"):
-            continue
-        restricted_until = user.get("restricted_until")
-        if not restricted_until:
-            continue
-        ru = datetime.fromisoformat(restricted_until)
-        if ru.tzinfo is None:
-            ru = ru.replace(tzinfo=timezone.utc)
-        if ru <= now:
-            user_model.update_user(user["id"], {
-                "is_restricted": False,
-                "restricted_until": None,
+            borrow_model.update_borrow(record["id"], {
+                "status": TransactionStatus.OVERDUE.value
             })
-            lifted += 1
 
-    return {"lifted_count": lifted}
+    return {"overdue_count": overdue_count}
+
+
+# def check_and_flag_overdue():
+#     now = datetime.now(timezone.utc)
+#     active_records = borrow_model.get_borrows_by_status(TransactionStatus.ACTIVE.value)
+#     restricted_users = []
+
+#     for record in active_records:
+#         due_date = datetime.fromisoformat(record["due_date"])
+#         if due_date.tzinfo is None:
+#             due_date = due_date.replace(tzinfo=timezone.utc)
+
+#         if due_date < now:
+#             borrow_model.update_borrow(record["id"], {
+#                 "status": TransactionStatus.OVERDUE.value
+#             })
+
+#         # if due_date < now:
+#         #     borrow_model.update_borrow(record["id"], {"status": TransactionStatus.OVERDUE.value})
+
+#         #     user = user_model.get_user_by_id(record["user_id"])
+#         #     if user and not user.get("is_restricted"):
+#         #         restricted_until = now + timedelta(days=RESTRICTION_DAYS)
+#         #         user_model.update_user(record["user_id"], {
+#         #             "is_restricted": True,
+#         #             "restricted_until": restricted_until.isoformat(),
+#         #         })
+#         #         restricted_users.append(user["name"])
+
+#     return {"overdue_count": len(active_records), "restricted_users": restricted_users}
+
+
+# def lift_expired_restrictions():
+#     now = datetime.now(timezone.utc)
+#     all_users = user_model.get_all_users()
+#     lifted = 0
+
+#     for user in all_users:
+#         if not user.get("is_restricted"):
+#             continue
+#         restricted_until = user.get("restricted_until")
+#         if not restricted_until:
+#             continue
+#         ru = datetime.fromisoformat(restricted_until)
+#         if ru.tzinfo is None:
+#             ru = ru.replace(tzinfo=timezone.utc)
+#         if ru <= now:
+#             user_model.update_user(user["id"], {
+#                 "is_restricted": False,
+#                 "restricted_until": None,
+#             })
+#             lifted += 1
+
+#     return {"lifted_count": lifted}
 
 
 def get_all_requests(statuses=None, request_type=None, search=None):
@@ -281,4 +340,7 @@ def get_all_requests(statuses=None, request_type=None, search=None):
 
 
 def get_my_requests(user: dict):
-    return request_model.get_my_requests(user["id"])
+    # return request_model.get_my_requests(user["id"])
+    items = request_model.get_my_requests(user["id"])
+    items = attach_book_name(items)   
+    return items

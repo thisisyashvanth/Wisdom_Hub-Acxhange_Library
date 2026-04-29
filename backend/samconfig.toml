@@ -1,10 +1,11 @@
 version = 0.1
 
 [default.deploy.parameters]
-stack_name = "acxhange-library-sam"
-s3_bucket = "acxhange-library-backend-s3"
-s3_prefix = "sam-app"
+stack_name = "acxhange-library-sam-app"
+resolve_s3 = true
+s3_prefix = "acxhange-library-sam-app"
 region = "ap-south-1"
+profile = "acxhange-library-account"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
 image_repositories = []

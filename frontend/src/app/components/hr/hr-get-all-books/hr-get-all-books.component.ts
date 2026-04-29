@@ -52,8 +52,56 @@ export class HrGetAllBooksComponent {
     });
   }
 
+
+  // Pagination Version
+  // lastKey: any = null;
+  // limit: number = 10;
+  // getAllBooks(loadMore: boolean = false) {
+  //   this.loading = true;
+  //   this.errorMessage = '';
+
+  //   this.bookService.getAllBooks(this.limit, this.lastKey).subscribe({
+  //     next: (res: any) => {
+
+  //       if (loadMore) {
+  //         this.books = [...this.books, ...res.items];
+  //       } else {
+  //         this.books = res.items;
+  //       }
+
+  //       this.filteredBooks = this.books;
+
+  //       this.lastKey = res.last_key;   // 🔥 critical
+
+  //       this.loading = false;
+  //       console.log(res);
+  //     },
+  //     error: (err) => {
+  //       this.loading = false;
+  //       this.errorMessage = 'Failed to load books';
+  //       console.error(err);
+  //     }
+  //   });
+  // }
+
+  // filterBooks() {
+  //   const term = this.searchText.toLowerCase();
+
+  //   this.filteredBooks = this.books.filter(book =>
+  //     book.title.toLowerCase().includes(term) ||
+  //     book.author.toLowerCase().includes(term) ||
+  //     book.isbn.toLowerCase().includes(term) ||
+  //     book.category?.toLowerCase().includes(term)
+  //   );
+  // }
+
   filterBooks() {
     const term = this.searchText.toLowerCase();
+
+    if (!term) {
+      this.filteredBooks = this.books;
+      return;
+    }
 
     this.filteredBooks = this.books.filter(book =>
       book.title.toLowerCase().includes(term) ||
@@ -62,7 +110,6 @@ export class HrGetAllBooksComponent {
       book.category?.toLowerCase().includes(term)
     );
   }
-
 
   borrowBook(bookId: number) {
     this.requestService.borrow(bookId).subscribe({

@@ -1,3 +1,5 @@
+from models import request_model
+from services.request_service import _return_borrow_core
 from models import borrow_model, user_model
 from models.book_model import get_book_by_id
 from schemas.user_schema import GetUserBooksResp, GetUserHistoryResp
@@ -37,12 +39,31 @@ def get_user(user_id: str):
     return user
 
 
+# def delete_user(user_id: str):
+#     user = user_model.get_user_by_id(user_id)
+#     if not user:
+#         raise HTTPException(status_code=404, detail="User Not Found.")
+#     user_model.delete_user(user_id)
+#     return {"response": "User Deleted Successfully"}
+
+
 def delete_user(user_id: str):
     user = user_model.get_user_by_id(user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User Not Found.")
+
+    borrows = borrow_model.get_borrows_by_user(user_id)
+
+    for borrow in borrows:
+        if borrow["status"] in [
+            borrow_model.TransactionStatus.ACTIVE.value,
+            borrow_model.TransactionStatus.OVERDUE.value
+        ]:
+            _return_borrow_core(borrow)
+
     user_model.delete_user(user_id)
-    return {"response": "User Deleted Successfully"}
+
+    return {"response": "User deleted and books returned"}
 
 
 def get_user_history(user_id: str):

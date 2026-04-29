@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { ExcelService } from '../../../services/excel.service';
+import { RequestItem, RequestService } from '../../../services/request.service';
 
 @Component({
   selector: 'app-hr-get-all-users',
@@ -18,7 +19,7 @@ export class HrGetAllUsersComponent {
   successMessage: string = '';
   errorMessage: string = '';
 
-  constructor(private router: Router, private userService: UserService, private excelService: ExcelService) { }
+  constructor(private router: Router, private userService: UserService, private excelService: ExcelService, private requestService: RequestService) { }
 
   ngOnInit(): void {
     this.getAllUsers();
@@ -57,6 +58,20 @@ export class HrGetAllUsersComponent {
     this.router.navigate(['/hr-user-view-history', userId]);
   }
 
+  deleteUser(userId: string) {
+    if (!confirm('Are you sure you want to delete this user?')) return;
+
+    this.userService.deleteUser(userId).subscribe({
+      next: (res) => {
+        console.log('User deleted:', res);
+        // optionally refresh list or remove from UI
+      },
+      error: (err) => {
+        console.error('Error deleting user:', err);
+      }
+    })
+  }
+
   downloadExcel() {
     this.excelService.exportUsers(this.filteredUsers).subscribe({
       next: (blob: Blob) => {
@@ -72,6 +87,29 @@ export class HrGetAllUsersComponent {
       error: (err) => {
         this.errorMessage = 'Failed to download Excel';
         console.error(err);
+      }
+    });
+  }
+
+  onRestrictionChange(user: any, event: any) {
+    const restrict = event.target.value === 'true';
+
+    if (!user.id) {
+      console.error('User ID missing:', user);
+      this.errorMessage = 'Invalid user ID';
+      return;
+    }
+
+    this.requestService.setUserRestriction(user.id, restrict).subscribe({
+      next: () => {
+        user.is_restricted = restrict;
+        this.successMessage = 'Restriction updated successfully';
+        this.errorMessage = '';
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Failed to update restriction';
+        this.successMessage = '';
       }
     });
   }

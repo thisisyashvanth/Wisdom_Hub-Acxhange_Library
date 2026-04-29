@@ -1,3 +1,6 @@
+import json
+from typing import Optional
+
 from fastapi import APIRouter, Depends
 from schemas.book_schema import CreateBookResp, CreateBookReq, GetBookResp, DeleteBookResp , GetBookUserHistoryResp
 from security.dependency import get_current_user, require_hr
@@ -15,6 +18,12 @@ def create_book(book: CreateBookReq, hr=Depends(require_hr)):
 @router.get("/get-all", response_model=list[GetBookResp])
 def get_all_books(current_user=Depends(get_current_user)):
     return book_service.get_all_books()
+
+# Pagination Version
+# @router.get("/get-all")
+# def get_all_books(limit: int = 10, last_key: Optional[str] = None, current_user=Depends(get_current_user)):
+#     parsed_key = json.loads(last_key) if last_key else None
+#     return book_service.get_all_books(limit, parsed_key)
 
 
 @router.get("/get/{id}", response_model=GetBookResp)

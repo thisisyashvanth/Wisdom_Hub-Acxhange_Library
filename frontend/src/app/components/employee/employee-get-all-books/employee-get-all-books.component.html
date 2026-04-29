@@ -2,8 +2,7 @@
     <header class="employee-catalog__hero">
         <p class="employee-catalog__eyebrow">Library Catalog</p>
         <h2>Available Books</h2>
-        <p class="employee-catalog__subtitle">Browse the full collection and request, renew, or return books from one
-            workspace.</p>
+        <p class="employee-catalog__subtitle">Browse the full collection of Wisdom Hub Books from one place.</p>
     </header>
 
     <div class="hr-create-book__message hr-create-book__message--success" *ngIf="successMessage">
@@ -68,14 +67,18 @@
                     Borrow
                 </button>
 
-                <button class="catalog-card__button" (click)="renewBook(book.borrow_id)" [disabled]="!book.borrow_id">
+                <!-- <button class="catalog-card__button" (click)="renewBook(book.borrow_id)" [disabled]="!book.borrow_id">
                     Renew
                 </button>
 
                 <button class="catalog-card__button" (click)="returnBook(book.borrow_id)" [disabled]="!book.borrow_id">
                     Return
-                </button>
+                </button> -->
             </div>
         </article>
     </div>
+
+    <!-- <button *ngIf="lastKey" (click)="getAllBooks(true)">
+        Load More
+    </button> -->
 </section>
