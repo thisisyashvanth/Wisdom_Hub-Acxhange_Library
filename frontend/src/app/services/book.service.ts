@@ -37,7 +37,11 @@ export class BookService {
     return this.http.get<any[]>(`${this.baseUrl}/${bookId}/users`);
   }
 
-  // hrsignup(req: any) {
-  //   return this.http.post(`${this.baseUrl}/hr-signup`, req);
-  // }
+  getBook(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/get/${id}`);
+  }
+
+  updateBook(id: string, payload: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/update/${id}`, payload);
+  }
 }

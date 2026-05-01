@@ -12,12 +12,18 @@
             (input)="filterUsers()" class="employee-catalog__search-input" />
     </div>
 
+    <div style="margin-bottom: 10px;">
+        <button (click)="downloadExcel()" class="employee-catalog__action-button">
+            Download Excel
+        </button>
+    </div>
+
     <!-- Success / Error Messages -->
     <div class="hr-create-book__message hr-create-book__message--success" *ngIf="successMessage">
         {{ successMessage }}
     </div>
 
-    <div class="hr-create-book__message hr-create-book__message--success" *ngIf="errorMessage">
+    <div class="hr-create-book__message hr-create-book__message--error" *ngIf="errorMessage">
         {{ errorMessage }}
     </div>
 
@@ -34,12 +40,6 @@
     <div class="employee-catalog__state employee-catalog__state--empty"
         *ngIf="!loading && users.length > 0 && filteredUsers.length === 0">
         No users matched your search.
-    </div>
-
-    <div style="margin-bottom: 10px;">
-        <button (click)="downloadExcel()" class="employee-catalog__action-button">
-            Download Excel
-        </button>
     </div>
 
     <!-- Users Table -->
@@ -107,8 +107,19 @@
 
                     <!-- Actions -->
                     <td>
-                        <button class="employee-catalog__action-button" (click)="viewHistory(user.id)">View History</button>
-                        <button class="employee-catalog__action-button" (click)="deleteUser(user.id)">Delete User</button>
+                        <ng-container *ngIf="pendingDeleteId !== user.id">
+                            <button class="employee-catalog__action-button" (click)="viewHistory(user.id)">View
+                                History</button>
+                            <button class="employee-catalog__action-button employee-catalog__action-button--danger"
+                                (click)="requestDelete(user.id)">Delete User</button>
+                        </ng-container>
+                        <ng-container *ngIf="pendingDeleteId === user.id">
+                            <span class="employee-catalog__confirm-text">Delete this user ?</span>
+                            <button class="employee-catalog__action-button employee-catalog__action-button--confirm"
+                                (click)="confirmDelete(user.id)">Yes, Delete</button>
+                            <button class="employee-catalog__action-button employee-catalog__action-button--cancel"
+                                (click)="cancelDelete()">Cancel</button>
+                        </ng-container>
                     </td>
 
                     <!-- Restriction Dropdown

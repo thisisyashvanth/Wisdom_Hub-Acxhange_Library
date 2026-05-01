@@ -1,0 +1,169 @@
+:host {
+  display: block;
+}
+
+.hr-edit-book {
+    padding: 2rem;
+    color: #eaf1f6;
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+.hr-edit-book__hero {
+    max-width: 44rem;
+    margin-bottom: 1.5rem;
+}
+
+.hr-edit-book__eyebrow {
+    margin: 0 0 0.5rem;
+    color: #ffcf9a;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.hr-edit-book__hero h2 {
+    margin: 0;
+}
+
+.hr-edit-book__subtitle {
+    margin: 0.65rem 0 0;
+    color: #9eb3c7;
+}
+
+.hr-edit-book__state {
+    padding: 1rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    background: rgba(8, 18, 30, 0.72);
+    margin-bottom: 1rem;
+    color: #c8d5e3;
+}
+
+.hr-edit-book__state--error {
+    color: #ffb6b6;
+    border-color: rgba(255, 94, 94, 0.2);
+    background: rgba(255, 94, 94, 0.08);
+}
+
+.hr-edit-book__form {
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(10, 23, 35, 0.88), rgba(7, 15, 25, 0.96));
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+    max-width: 56rem;
+}
+
+.hr-edit-book__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.hr-edit-book .form-field {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.hr-edit-book .form-field label {
+    color: #e6ebf5;
+    font-size: 0.95rem;
+}
+
+.hr-edit-book .form-field input {
+    padding: 0.95rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    outline: none;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.hr-edit-book .form-field input:focus {
+    border-color: #ffcf9a;
+    box-shadow: 0 0 0 3px rgba(255, 207, 154, 0.16);
+}
+
+.hr-edit-book__optional {
+    font-size: 0.8rem;
+    color: #7f95ab;
+    font-weight: normal;
+}
+
+.hr-edit-book__field-error {
+    font-size: 0.82rem;
+    color: #ffb6b6;
+}
+
+.hr-edit-book__actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+.hr-edit-book__submit {
+    padding: 1rem 1.5rem;
+    border: 0;
+    border-radius: 14px;
+    color: #08111a;
+    font-weight: 600;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #ffe6bf, #ffffff);
+    cursor: pointer;
+}
+
+.hr-edit-book__submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.hr-edit-book__cancel {
+    padding: 1rem 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    color: #edf4fb;
+    font-size: 1rem;
+    background: transparent;
+    cursor: pointer;
+}
+
+.hr-edit-book__cancel:hover {
+    border-color: rgba(255, 207, 154, 0.3);
+    color: #ffcf9a;
+}
+
+.hr-edit-book__message {
+    margin-bottom: 1rem;
+    padding: 1rem 1.2rem;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    max-width: 56rem;
+}
+
+.hr-edit-book__message--success {
+    color: #aef0c4;
+    border-color: rgba(74, 222, 128, 0.18);
+    background: rgba(74, 222, 128, 0.08);
+}
+
+.hr-edit-book__message--error {
+    color: #ffb6b6;
+    border-color: rgba(255, 94, 94, 0.2);
+    background: rgba(255, 94, 94, 0.08);
+}
+
+@media (max-width: 900px) {
+    .hr-edit-book__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .hr-edit-book {
+        padding: 1rem;
+    }
+
+    .hr-edit-book__actions {
+        flex-direction: column;
+    }
+}

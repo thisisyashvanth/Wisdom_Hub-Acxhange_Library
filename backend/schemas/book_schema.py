@@ -73,4 +73,30 @@ class GetBasicBook(BaseModel):
     author: str
     category: str | None
 
-    model_config = {"from_attributes": True}
+    model_config = {
+        "from_attributes": True
+    }
+
+
+class UpdateBookReq(BaseModel):
+    title: str
+    author: str
+    bookNumber: str
+    isbn: str
+    category: str | None = None
+    total_copies: int
+
+
+class UpdateBookResp(BaseModel):
+    id: UUID
+    title: str
+    bookNumber: str
+    author: str
+    isbn: str
+    category: str | None
+    total_copies: int
+    available_copies: int
+
+    model_config = {
+        "from_attributes": True
+    }

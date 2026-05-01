@@ -154,6 +154,10 @@ export class HrGetAllBooksComponent {
     this.router.navigate([`/books/${bookId}/history`]);
   }
 
+  editBook(bookId: string) {
+    this.router.navigate(['/hr-edit-book', bookId]);
+  }
+
   downloadExcel() {
     this.excelService.exportBooks(this.filteredBooks).subscribe({
       next: (blob: Blob) => {

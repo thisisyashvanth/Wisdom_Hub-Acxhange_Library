@@ -1,0 +1,126 @@
+<section class="hr-edit-book">
+  <header class="hr-edit-book__hero">
+    <p class="hr-edit-book__eyebrow">HR Library Management</p>
+    <h2>Edit Book</h2>
+  </header>
+
+  <div
+    class="hr-edit-book__message hr-edit-book__message--success"
+    *ngIf="message && messageType === 'success'"
+  >
+    {{ message }}
+  </div>
+
+  <div
+    class="hr-edit-book__message hr-edit-book__message--error"
+    *ngIf="message && messageType === 'error'"
+  >
+    {{ message }}
+  </div>
+
+  <div class="hr-edit-book__state" *ngIf="loading">
+    Loading book details...
+  </div>
+
+  <div class="hr-edit-book__state hr-edit-book__state--error" *ngIf="loadError">
+    {{ loadError }}
+  </div>
+
+  <form
+    class="hr-edit-book__form"
+    (ngSubmit)="onSubmit()"
+    *ngIf="!loading && !loadError"
+  >
+    <div class="hr-edit-book__grid">
+      <div class="form-field">
+        <label for="title">Title</label>
+        <input
+          id="title"
+          type="text"
+          [(ngModel)]="book.title"
+          name="title"
+          required
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="bookNumber">Book Number</label>
+        <input
+          id="bookNumber"
+          type="text"
+          [(ngModel)]="book.bookNumber"
+          name="bookNumber"
+          required
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="author">Author</label>
+        <input
+          id="author"
+          type="text"
+          [(ngModel)]="book.author"
+          name="author"
+          required
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="isbn">ISBN</label>
+        <input
+          id="isbn"
+          type="text"
+          [(ngModel)]="book.isbn"
+          name="isbn"
+          required
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="category">Category <span class="hr-edit-book__optional">(optional)</span></label>
+        <input
+          id="category"
+          type="text"
+          [(ngModel)]="book.category"
+          name="category"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="totalCopies">Total Copies</label>
+        <input
+          id="totalCopies"
+          type="number"
+          [(ngModel)]="book.total_copies"
+          name="total_copies"
+          min="1"
+          required
+        />
+        <span
+          class="hr-edit-book__field-error"
+          *ngIf="book.total_copies < borrowedCopies && book.total_copies >= 1"
+        >
+          Total copies cannot be less than the number of currently borrowed copies.
+        </span>
+      </div>
+    </div>
+
+    <div class="hr-edit-book__actions">
+      <button
+        class="hr-edit-book__submit"
+        type="submit"
+        [disabled]="!isFormValid() || loading"
+      >
+        Save Changes
+      </button>
+
+      <button
+        class="hr-edit-book__cancel"
+        type="button"
+        (click)="cancel()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</section>

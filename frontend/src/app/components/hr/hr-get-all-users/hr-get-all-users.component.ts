@@ -19,6 +19,8 @@ export class HrGetAllUsersComponent {
   successMessage: string = '';
   errorMessage: string = '';
 
+  pendingDeleteId: string | null = null;
+
   constructor(private router: Router, private userService: UserService, private excelService: ExcelService, private requestService: RequestService) { }
 
   ngOnInit(): void {
@@ -31,7 +33,6 @@ export class HrGetAllUsersComponent {
 
     this.userService.getAllUsers().subscribe({
       next: (res: any) => {
-
         this.users = res;
         this.filteredUsers = res;
         this.loading = false;
@@ -58,18 +59,32 @@ export class HrGetAllUsersComponent {
     this.router.navigate(['/hr-user-view-history', userId]);
   }
 
-  deleteUser(userId: string) {
-    if (!confirm('Are you sure you want to delete this user?')) return;
+  requestDelete(userId: string) {
+    this.pendingDeleteId = userId;
+    this.successMessage = '';
+    this.errorMessage = '';
+  }
 
+  cancelDelete() {
+    this.pendingDeleteId = null;
+  }
+
+  confirmDelete(userId: string) {
     this.userService.deleteUser(userId).subscribe({
-      next: (res) => {
-        console.log('User deleted:', res);
-        // optionally refresh list or remove from UI
+      next: () => {
+        this.users = this.users.filter(u => u.id !== userId);
+        this.filteredUsers = this.filteredUsers.filter(u => u.id !== userId);
+        this.pendingDeleteId = null;
+        this.successMessage = 'User deleted successfully.';
+        this.errorMessage = '';
       },
       error: (err) => {
+        this.pendingDeleteId = null;
+        this.errorMessage = err.error?.detail || 'Failed to delete user.';
+        this.successMessage = '';
         console.error('Error deleting user:', err);
       }
-    })
+    });
   }
 
   downloadExcel() {

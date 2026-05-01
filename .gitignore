@@ -3,3 +3,5 @@ venv/
 template.yaml
 .angular
 .vscode
+.kiro
+__pycache__

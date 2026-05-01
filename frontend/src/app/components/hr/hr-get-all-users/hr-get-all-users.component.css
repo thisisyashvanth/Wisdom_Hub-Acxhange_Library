@@ -147,3 +147,33 @@
         border-radius: 18px;
     }
 }
+
+.employee-catalog__action-button + .employee-catalog__action-button {
+    margin-left: 0.5rem;
+}
+
+.employee-catalog__action-button--danger {
+    border-color: rgba(255, 140, 140, 0.35);
+    background: linear-gradient(135deg, rgba(160, 40, 40, 0.88), rgba(25, 10, 10, 0.96));
+    color: #ffd0d0;
+}
+
+.employee-catalog__action-button--confirm {
+    border-color: rgba(255, 140, 140, 0.45);
+    background: linear-gradient(135deg, rgba(180, 40, 40, 0.92), rgba(30, 10, 10, 0.96));
+    color: #ffd0d0;
+}
+
+.employee-catalog__action-button--cancel {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    color: #c8d5e3;
+}
+
+.employee-catalog__confirm-text {
+    display: inline-block;
+    margin-right: 0.5rem;
+    font-size: 0.88rem;
+    color: #ffb6b6;
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+}

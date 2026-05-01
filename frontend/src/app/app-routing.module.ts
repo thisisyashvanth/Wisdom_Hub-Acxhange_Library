@@ -18,6 +18,7 @@ import { HrGetAllUsersComponent } from './components/hr/hr-get-all-users/hr-get-
 import { HrViewUserHistoryComponent } from './components/hr/hr-view-user-history/hr-view-user-history.component';
 import { HrViewRequestHistoryComponent } from './components/hr/hr-view-request-history/hr-view-request-history.component';
 import { EmployeeHistoryComponent } from './components/employee/employee-history/employee-history.component';
+import { HrEditBookComponent } from './components/hr/hr-edit-book/hr-edit-book.component';
 
 const routes: Routes = [
   { path: '', component: LandingpageComponent },
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'hr-get-all-users', component: HrGetAllUsersComponent, canActivate: [roleGuard] },
   { path: 'hr-user-view-history/:id', component: HrViewUserHistoryComponent, canActivate: [roleGuard] },
   { path: 'hr-user-request-history', component: HrViewRequestHistoryComponent, canActivate: [roleGuard] },
+  { path: 'hr-edit-book/:id', component: HrEditBookComponent, canActivate: [roleGuard] },
 ];
 
 @NgModule({

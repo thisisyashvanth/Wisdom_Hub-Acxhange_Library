@@ -1,4 +1,4 @@
-from schemas.book_schema import CreateBookReq
+from schemas.book_schema import CreateBookReq, UpdateBookReq
 from models import book_model, borrow_model, user_model
 from fastapi import HTTPException
 
@@ -44,6 +44,41 @@ def delete_book(book_id: str):
 
     book_model.delete_book(book_id)
     return {"title": book["title"], "response": "Book Deleted Successfully."}
+
+
+def update_book(book_id: str, book: UpdateBookReq) -> dict:
+    existing = book_model.get_book_by_id(book_id)
+    if not existing:
+        raise HTTPException(status_code=404, detail="Book Not Found.")
+
+    # Uniqueness: ISBN must not belong to a different book
+    # isbn_match = book_model.get_book_by_isbn(book.isbn)
+    # if isbn_match and isbn_match["id"] != book_id:
+    #     raise HTTPException(status_code=400, detail="Book with this ISBN already exists.")
+
+    num_match = book_model.get_book_by_number(book.bookNumber)
+    if num_match and num_match["id"] != book_id:
+        raise HTTPException(status_code=400, detail="Book with this Book Number already exists.")
+
+    borrowed_copies = int(existing["total_copies"]) - int(existing["available_copies"])
+    new_available = book.total_copies - borrowed_copies
+
+    if new_available < 0:
+        raise HTTPException(
+            status_code=400,
+            detail="Total copies cannot be less than the number of currently borrowed copies."
+        )
+
+    updates = {
+        "title": book.title,
+        "author": book.author,
+        "bookNumber": book.bookNumber,
+        "isbn": book.isbn,
+        "category": book.category,
+        "total_copies": book.total_copies,
+        "available_copies": new_available,
+    }
+    return book_model.update_book(book_id, updates)
 
 
 def get_book_user_history(book_id: str):

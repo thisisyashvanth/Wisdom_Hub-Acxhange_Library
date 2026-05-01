@@ -1,8 +1,5 @@
-import json
-from typing import Optional
-
 from fastapi import APIRouter, Depends
-from schemas.book_schema import CreateBookResp, CreateBookReq, GetBookResp, DeleteBookResp , GetBookUserHistoryResp
+from schemas.book_schema import CreateBookResp, CreateBookReq, GetBookResp, DeleteBookResp, GetBookUserHistoryResp, UpdateBookReq, UpdateBookResp
 from security.dependency import get_current_user, require_hr
 from services import book_service
 
@@ -34,6 +31,11 @@ def get_book(id: str, current_user=Depends(get_current_user)):
 @router.delete("/remove/{id}", response_model=DeleteBookResp)
 def delete_book(id: str, hr=Depends(require_hr)):
     return book_service.delete_book(id)
+
+
+@router.put("/update/{id}", response_model=UpdateBookResp)
+def update_book(id: str, book: UpdateBookReq, hr=Depends(require_hr)):
+    return book_service.update_book(id, book)
 
 
 @router.get("/{id}/users", response_model=list[GetBookUserHistoryResp])
