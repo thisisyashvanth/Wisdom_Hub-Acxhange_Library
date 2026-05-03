@@ -1,0 +1,21 @@
+.employee-catalog__search {
+    display: grid;
+    gap: 0.4rem;
+    min-width: min(100%, 23rem);
+    color: #d5e1eb;
+    margin-bottom: 15px;
+}
+
+.employee-catalog__search input {
+    padding: 0.95rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    outline: none;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.employee-catalog__search input:focus {
+    border-color: #ffcf9a;
+    box-shadow: 0 0 0 3px rgba(255, 207, 154, 0.16);
+}

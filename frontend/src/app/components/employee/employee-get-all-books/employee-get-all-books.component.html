@@ -26,8 +26,24 @@
         No books available.
     </div>
 
+    <div class="employee-catalog__search">
+        <input type="text" placeholder="Search by title, author, or category..." [(ngModel)]="searchText"
+            (input)="applyFilter()" />
+
+    </div>
+    <div class="hr-requests__filter">
+        <label class="hr-requests__filter-label">Search by: </label>
+
+        <select class="hr-requests__filter-select" [(ngModel)]="searchType" (change)="applyFilter()">
+            <option value="all">All</option>
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+            <option value="category">Category</option>
+        </select>
+    </div>
+
     <div class="employee-catalog__grid" *ngIf="!loading && books.length > 0">
-        <article *ngFor="let book of books" class="catalog-card">
+        <article *ngFor="let book of filteredBooks" class="catalog-card">
             <div class="catalog-card__top">
                 <div>
                     <p class="catalog-card__category">{{ book.category }}</p>

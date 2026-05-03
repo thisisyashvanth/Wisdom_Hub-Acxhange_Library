@@ -17,6 +17,11 @@ export class EmployeeGetAllBooksComponent {
   successMessage: string = '';
   errorActionMessage: string = '';
 
+  searchText: string = '';
+  searchType: string = 'all';
+
+  filteredBooks: any[] = [];
+
   constructor(private bookService: BookService, private router: Router, private requestService: RequestService) { }
 
   ngOnInit(): void {
@@ -30,6 +35,7 @@ export class EmployeeGetAllBooksComponent {
     this.bookService.getAllBooks().subscribe({
       next: (res: any) => {
         this.books = res;
+        this.filteredBooks = res;
         this.loading = false;
       },
       error: (err) => {
@@ -40,7 +46,7 @@ export class EmployeeGetAllBooksComponent {
     });
   }
 
-  
+
   // Pagination Version
   // lastKey: any = null;
 
@@ -107,6 +113,35 @@ export class EmployeeGetAllBooksComponent {
   //       }
   //     });
   // }
+
+  applyFilter() {
+    const text = this.searchText.toLowerCase();
+
+    this.filteredBooks = this.books.filter(book => {
+      if (this.searchType === 'title') {
+        return book.title.toLowerCase().includes(text);
+      }
+
+      if (this.searchType === 'author') {
+        return book.author.toLowerCase().includes(text);
+      }
+
+      if (this.searchType === 'category') {
+        return book.category.toLowerCase().includes(text);
+      }
+
+      // ALL
+      return (
+        book.title.toLowerCase().includes(text) ||
+        book.author.toLowerCase().includes(text) ||
+        book.category.toLowerCase().includes(text)
+      );
+    });
+  }
+
+
+
+
 
   clearMessages() {
     this.successMessage = '';
