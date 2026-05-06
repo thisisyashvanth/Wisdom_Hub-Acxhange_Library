@@ -45,12 +45,15 @@
 }
 
 .request-card__remark {
+    display: grid;
+    gap: 0.45rem;
     margin-top: 1rem;
+    width: 100%;
+    min-width: 0;
 }
 
 .request-card__remark-label {
     display: block;
-    margin-bottom: 0.45rem;
     color: #ffe0ba;
     font-family: "Trebuchet MS", "Segoe UI", sans-serif;
     font-size: 0.76rem;
@@ -60,7 +63,10 @@
 }
 
 .request-card__input {
+    display: block;
+    box-sizing: border-box;
     width: 100%;
+    max-width: 100%;
     padding: 0.95rem 1rem;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 16px;

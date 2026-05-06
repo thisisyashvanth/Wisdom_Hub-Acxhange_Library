@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BookService } from '../../../services/book.service';
 import { Router } from '@angular/router';
 import { RequestService } from '../../../services/request.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-employee-get-all-books',
@@ -22,9 +23,19 @@ export class EmployeeGetAllBooksComponent {
 
   filteredBooks: any[] = [];
 
-  constructor(private bookService: BookService, private router: Router, private requestService: RequestService) { }
+  constructor(
+    private bookService: BookService,
+    private router: Router,
+    private requestService: RequestService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
+    if (!this.authService.getToken()) {
+      this.errorMessage = 'Please sign in to view available books.';
+      return;
+    }
+
     this.getAllBooks();
   }
 
@@ -40,10 +51,36 @@ export class EmployeeGetAllBooksComponent {
       },
       error: (err) => {
         this.loading = false;
-        this.errorMessage = 'Failed to load books';
+        this.errorMessage = this.getLoadErrorMessage(err);
         console.error(err);
       }
     });
+  }
+
+  private getLoadErrorMessage(err: any): string {
+    if (err.status === 0) {
+      return 'Unable to connect to the server. Please try again.';
+    }
+
+    if (err.status === 401) {
+      return 'Your session expired. Please sign in again.';
+    }
+
+    if (err.status === 403) {
+      return err.error?.detail || 'You do not have access to view available books.';
+    }
+
+    return err.error?.detail || 'Failed to load books.';
+  }
+
+  getDisplayIsbn(isbn: string | null | undefined): string {
+    const value = isbn?.trim();
+
+    if (!value || value.toLowerCase() === 'testing edit again') {
+      return 'Unknown';
+    }
+
+    return value;
   }
 
 
@@ -73,14 +110,18 @@ export class EmployeeGetAllBooksComponent {
 
 
   borrowBook(bookId: number) {
+    this.clearMessages();
+
     this.requestService.borrow(bookId)
       .subscribe({
         next: (res) => {
-          this.successMessage = 'Borrow Request Sent Successfully.'
+          this.successMessage = 'Borrow request sent successfully.';
+          setTimeout(() => this.clearMessages(), 3000);
           // alert('Borrow request sent');
         },
         error: (err) => {
           this.errorActionMessage = err.error?.detail || 'Borrow failed';
+          setTimeout(() => this.clearMessages(), 3000);
           // alert(err.error.detail);
         }
       });
@@ -119,22 +160,22 @@ export class EmployeeGetAllBooksComponent {
 
     this.filteredBooks = this.books.filter(book => {
       if (this.searchType === 'title') {
-        return book.title.toLowerCase().includes(text);
+        return book.title?.toLowerCase().includes(text);
       }
 
       if (this.searchType === 'author') {
-        return book.author.toLowerCase().includes(text);
+        return book.author?.toLowerCase().includes(text);
       }
 
       if (this.searchType === 'category') {
-        return book.category.toLowerCase().includes(text);
+        return book.category?.toLowerCase().includes(text);
       }
 
       // ALL
       return (
-        book.title.toLowerCase().includes(text) ||
-        book.author.toLowerCase().includes(text) ||
-        book.category.toLowerCase().includes(text)
+        book.title?.toLowerCase().includes(text) ||
+        book.author?.toLowerCase().includes(text) ||
+        book.category?.toLowerCase().includes(text)
       );
     });
   }

@@ -140,3 +140,21 @@
         padding-right: 0.9rem;
     }
 }
+
+@media (max-width: 760px) {
+    .employee-catalog__table-wrap {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .employee-catalog__table {
+        min-width: 44rem;
+    }
+
+    .employee-catalog__table th,
+    .employee-catalog__table td {
+        padding: 0.8rem;
+        white-space: nowrap;
+    }
+}

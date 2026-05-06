@@ -15,7 +15,11 @@
     </div>
 
     <!-- Message -->
-    <div *ngIf="message" class="employee-catalog__state employee-catalog__state--error">
+    <div *ngIf="message" class="app-toast employee-catalog__state" [ngClass]="{
+        'app-toast--success': messageType === 'success',
+        'app-toast--error': messageType === 'error',
+        'employee-catalog__state--error': messageType === 'error'
+    }">
         {{ message }}
     </div>
 

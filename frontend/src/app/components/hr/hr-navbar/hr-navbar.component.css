@@ -36,6 +36,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  min-width: 0;
 }
 
 .hr-nav__link,
@@ -72,5 +73,32 @@
   .hr-nav__links,
   .hr-nav__actions {
     flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 520px) {
+  .hr-nav {
+    padding: 0.85rem;
+  }
+
+  .hr-nav__logo {
+    width: min(9rem, 68vw);
+  }
+
+  .hr-nav__links,
+  .hr-nav__actions {
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .hr-nav__link,
+  .hr-nav__logout {
+    flex: 1 1 calc(50% - 0.5rem);
+    padding: 0.65rem 0.75rem;
+    text-align: center;
+  }
+
+  .hr-nav__role {
+    width: 100%;
   }
 }

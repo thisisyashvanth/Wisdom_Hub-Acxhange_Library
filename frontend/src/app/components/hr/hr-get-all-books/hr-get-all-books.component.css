@@ -84,26 +84,110 @@
     color: #ffd0d0;
 }
 
+.hr-catalog__toolbar {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+.hr-catalog__download-button,
 .hr-catalog__action-button {
-    padding: 0.4rem 0.4rem;
-    border: 1px solid rgba(255, 207, 154, 0.3);
+    border: 1px solid transparent;
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hr-catalog__download-button {
+    padding: 0.72rem 1rem;
+    border-color: rgba(255, 207, 154, 0.3);
     border-radius: 999px;
     background: linear-gradient(135deg, rgba(187, 117, 34, 0.92), rgba(25, 18, 11, 0.96));
     color: #fff2df;
-    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
     font-size: 0.88rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.hr-catalog__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.hr-catalog__action-button {
+    min-width: 5.75rem;
+    min-height: 2.2rem;
+    padding: 0.5rem 0.72rem;
+    border-radius: 9px;
+    color: #edf3f8;
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 0.82rem;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+.hr-catalog__action-button--edit {
+    border-color: rgba(255, 207, 154, 0.34);
+    color: #ffe0ba;
+    background: rgba(255, 207, 154, 0.1);
+}
+
+.hr-catalog__action-button--history {
+    border-color: rgba(142, 177, 214, 0.24);
+    color: #cfe1f3;
+    background: rgba(142, 177, 214, 0.08);
+}
+
+.hr-catalog__download-button:hover,
 .hr-catalog__action-button:hover {
     transform: translateY(-1px);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
+.hr-catalog__action-button--history:hover {
+    border-color: rgba(142, 177, 214, 0.44);
+    background: rgba(142, 177, 214, 0.14);
+}
+
+.hr-catalog__action-button--edit:hover {
+    border-color: rgba(255, 207, 154, 0.52);
+    background: rgba(255, 207, 154, 0.16);
+}
+
 @media (max-width: 640px) {
     .hr-catalog__table-wrap {
         border-radius: 18px;
+    }
+}
+
+@media (max-width: 760px) {
+    .hr-catalog__table-wrap {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .hr-catalog__table {
+        min-width: 46rem;
+    }
+
+    .hr-catalog__table th,
+    .hr-catalog__table td {
+        padding: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .hr-catalog__action-button {
+        min-height: 2.5rem;
+        white-space: nowrap;
+    }
+
+    .hr-catalog__actions {
+        gap: 0.35rem;
+        padding: 0.2rem;
     }
 }

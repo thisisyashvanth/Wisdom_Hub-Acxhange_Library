@@ -5,14 +5,14 @@
   </header>
 
   <div
-    class="hr-edit-book__message hr-edit-book__message--success"
+    class="app-toast app-toast--success hr-edit-book__message hr-edit-book__message--success"
     *ngIf="message && messageType === 'success'"
   >
     {{ message }}
   </div>
 
   <div
-    class="hr-edit-book__message hr-edit-book__message--error"
+    class="app-toast app-toast--error hr-edit-book__message hr-edit-book__message--error"
     *ngIf="message && messageType === 'error'"
   >
     {{ message }}

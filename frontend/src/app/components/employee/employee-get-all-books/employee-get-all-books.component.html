@@ -5,11 +5,11 @@
         <p class="employee-catalog__subtitle">Browse the full collection of Wisdom Hub Books from one place.</p>
     </header>
 
-    <div class="hr-create-book__message hr-create-book__message--success" *ngIf="successMessage">
+    <div class="app-toast app-toast--success hr-create-book__message hr-create-book__message--success" *ngIf="successMessage">
         {{ successMessage }}
     </div>
 
-    <div class="hr-create-book__message hr-create-book__message--success" *ngIf="errorActionMessage">
+    <div class="app-toast app-toast--error hr-create-book__message hr-create-book__message--error" *ngIf="errorActionMessage">
         {{ errorActionMessage }}
     </div>
 
@@ -27,7 +27,7 @@
     </div>
 
     <div class="employee-catalog__search">
-        <input type="text" placeholder="Search by title, author, or category..." [(ngModel)]="searchText"
+        <input type="text" placeholder="Search by Title or Author..." [(ngModel)]="searchText"
             (input)="applyFilter()" />
 
     </div>
@@ -46,7 +46,7 @@
         <article *ngFor="let book of filteredBooks" class="catalog-card">
             <div class="catalog-card__top">
                 <div>
-                    <p class="catalog-card__category">{{ book.category }}</p>
+                    <!-- <p class="catalog-card__category">{{ book.category }}</p> -->
                     <h3>{{ book.title }}</h3>
                 </div>
                 <span class="catalog-card__availability" [ngClass]="{
@@ -65,7 +65,7 @@
                 </div>
                 <div>
                     <dt>ISBN</dt>
-                    <dd>{{ book.isbn }}</dd>
+                    <dd>{{ getDisplayIsbn(book.isbn) }}</dd>
                 </div>
                 <div>
                     <dt>Total Copies</dt>

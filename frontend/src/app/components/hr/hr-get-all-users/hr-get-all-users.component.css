@@ -177,3 +177,26 @@
     color: #ffb6b6;
     font-family: "Trebuchet MS", "Segoe UI", sans-serif;
 }
+
+@media (max-width: 760px) {
+    .employee-catalog__table-wrap {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .employee-catalog__table {
+        min-width: 46rem;
+    }
+
+    .employee-catalog__table th,
+    .employee-catalog__table td {
+        padding: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .employee-catalog__action-button {
+        min-height: 2.5rem;
+        white-space: nowrap;
+    }
+}

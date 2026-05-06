@@ -18,10 +18,12 @@
         </select>
     </div>
 
-    <div *ngIf="message" class="hr-message" [ngClass]="{
+    <div *ngIf="message" class="app-toast hr-message" [ngClass]="{
+       'app-toast--success': messageType === 'success',
+       'app-toast--error': messageType === 'error',
        'hr-message--success': messageType === 'success',
        'hr-message--error': messageType === 'error'
-     }">
+    }">
         {{ message }}
     </div>
 

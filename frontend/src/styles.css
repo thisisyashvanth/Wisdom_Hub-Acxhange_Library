@@ -1,14 +1,112 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 html, body {
     margin: 0;
     min-height: 100%;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 body {
     background: #031116;
+    overflow-x: hidden;
+}
+
+.app-toast {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 1000;
+    width: min(24rem, calc(100vw - 2rem));
+    margin: 0;
+    padding: 1rem 1.15rem;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    color: #edf3f8;
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.45;
+    letter-spacing: 0;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.36);
+    backdrop-filter: blur(12px);
+    animation: app-toast-slide-in 0.22s ease-out;
+}
+
+.app-toast.app-toast.app-toast--success {
+    color: #dfffe9;
+    border-color: rgba(94, 234, 146, 0.36);
+    background: linear-gradient(135deg, rgba(18, 119, 68, 0.94), rgba(8, 34, 28, 0.96));
+}
+
+.app-toast.app-toast.app-toast--error {
+    color: #ffe4e4;
+    border-color: rgba(255, 120, 120, 0.38);
+    background: linear-gradient(135deg, rgba(149, 36, 36, 0.96), rgba(45, 12, 18, 0.96));
+}
+
+@keyframes app-toast-slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(-0.5rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 640px) {
+    .app-toast {
+        top: 0.75rem;
+        right: 0.75rem;
+        left: 0.75rem;
+        width: auto;
+    }
 }
 
 app-landingpage {
     display: block;
+}
+
+img,
+svg,
+video,
+canvas {
+    max-width: 100%;
+}
+
+input,
+select,
+textarea,
+button {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.employee-books,
+.employee-catalog,
+.employee-dashboard,
+.hr-catalog,
+.hr-create-book,
+.hr-dashboard,
+.hr-history,
+.hr-requests,
+.hr-edit-book {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
 }
 
 .landing-page {
@@ -220,6 +318,35 @@ app-landingpage {
     }
 }
 
+@media (max-width: 480px) {
+    .landing-header {
+        padding: 1.25rem 1rem 0;
+    }
+
+    .brand__logo {
+        width: min(11rem, 72vw);
+    }
+
+    .landing-hero {
+        gap: 1.5rem;
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .hero-copy h1 {
+        font-size: clamp(2.25rem, 16vw, 3rem);
+        line-height: 1.02;
+        letter-spacing: 0;
+    }
+
+    .hero-copy__text {
+        font-size: 1rem;
+    }
+
+    .access-card {
+        padding: 1.25rem;
+    }
+}
+
 .signin-page {
     min-height: 100vh;
     padding: 2rem;
@@ -402,6 +529,35 @@ app-landingpage {
     .signin-copy,
     .signin-card {
         padding: 1.5rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .signin-page,
+    .signup-page,
+    .hr-signup-page {
+        padding: 1rem;
+    }
+
+    .signin-copy,
+    .signin-card,
+    .signup-card,
+    .signup-copy,
+    .hr-signup-card,
+    .hr-signup-copy {
+        border-radius: 18px;
+        padding: 1.15rem;
+    }
+
+    .signin-copy h1,
+    .signup-copy h1,
+    .hr-signup-copy h1 {
+        font-size: clamp(2rem, 12vw, 2.6rem);
+        letter-spacing: 0;
+    }
+
+    .signin-copy__highlights span {
+        width: 100%;
     }
 }
 
@@ -708,6 +864,54 @@ app-landingpage {
     }
 }
 
+@media (max-width: 520px) {
+    .employee-books__grid,
+    .employee-catalog__grid,
+    .hr-catalog__grid,
+    .hr-requests__grid,
+    .employee-dashboard__grid,
+    .employee-dashboard__highlights,
+    .hr-dashboard__grid,
+    .hr-dashboard__highlights {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .book-card,
+    .catalog-card,
+    .hr-catalog-card,
+    .request-card,
+    .employee-dashboard__card,
+    .employee-dashboard__highlights article,
+    .hr-dashboard__card,
+    .hr-dashboard__highlights article {
+        border-radius: 16px;
+        padding: 1rem;
+    }
+
+    .book-card__top,
+    .catalog-card__top,
+    .hr-catalog-card__top,
+    .request-card__top {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .book-card h3,
+    .catalog-card h3,
+    .hr-catalog-card h3,
+    .request-card h3 {
+        overflow-wrap: anywhere;
+    }
+
+    .book-card__button,
+    .catalog-card__button,
+    .hr-catalog-card__button,
+    .request-card__button {
+        width: 100%;
+        min-height: 2.75rem;
+    }
+}
+
 .employee-catalog {
     padding: 2rem;
     color: #eaf1f6;
@@ -864,6 +1068,41 @@ app-landingpage {
 
     .catalog-card__meta {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .employee-catalog__search,
+    .hr-catalog__search,
+    .hr-history__search {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .employee-catalog__search {
+        flex-direction: column;
+    }
+
+    .employee-catalog__search input,
+    .hr-catalog__search input,
+    .hr-history__search input {
+        width: 100%;
+    }
+
+    .hr-requests__filter {
+        display: grid;
+        gap: 0.6rem;
+        width: 100%;
+    }
+
+    .hr-requests__filter-label {
+        margin-left: 0;
+    }
+
+    .hr-requests__filter-select {
+        width: 100%;
+        min-width: 0;
+        margin-left: 0;
     }
 }
 
@@ -1495,6 +1734,38 @@ app-landingpage {
     .request-card__meta {
         flex-direction: column;
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .hr-history__table-wrap,
+    .hr-catalog__table-wrap,
+    .employee-catalog__table-wrap {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .hr-history__table,
+    .hr-catalog__table,
+    .employee-catalog__table {
+        min-width: 42rem;
+    }
+
+    .hr-history__table th,
+    .hr-history__table td,
+    .hr-catalog__table th,
+    .hr-catalog__table td,
+    .employee-catalog__table th,
+    .employee-catalog__table td {
+        padding: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .hr-catalog__action-button,
+    .employee-catalog__action-button {
+        min-height: 2.5rem;
+        white-space: nowrap;
     }
 }
 

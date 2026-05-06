@@ -19,11 +19,11 @@
     </div>
 
     <!-- Success / Error Messages -->
-    <div class="hr-create-book__message hr-create-book__message--success" *ngIf="successMessage">
+    <div class="app-toast app-toast--success hr-create-book__message hr-create-book__message--success" *ngIf="successMessage">
         {{ successMessage }}
     </div>
 
-    <div class="hr-create-book__message hr-create-book__message--error" *ngIf="errorMessage">
+    <div class="app-toast app-toast--error hr-create-book__message hr-create-book__message--error" *ngIf="errorMessage">
         {{ errorMessage }}
     </div>
 

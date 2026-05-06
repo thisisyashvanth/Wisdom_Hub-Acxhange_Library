@@ -7,11 +7,11 @@
     </p>
   </header>
 
-  <div class="hr-create-book__message hr-create-book__message--success" *ngIf="message">
+  <div class="app-toast app-toast--success hr-create-book__message hr-create-book__message--success" *ngIf="message">
     {{ message }}
   </div>
 
-  <div class="hr-create-book__message hr-create-book__message--error" *ngIf="error">
+  <div class="app-toast app-toast--error hr-create-book__message hr-create-book__message--error" *ngIf="error">
     {{ error }}
   </div>
 

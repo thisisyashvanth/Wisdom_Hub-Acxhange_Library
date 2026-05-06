@@ -8,8 +8,10 @@
   </header>
 
   <div *ngIf="message"
-     class="employee-books__message"
+     class="app-toast employee-books__message"
      [ngClass]="{
+       'app-toast--success': messageType === 'success',
+       'app-toast--error': messageType === 'error',
        'employee-books__message--success': messageType === 'success',
        'employee-books__message--error': messageType === 'error'
      }">

@@ -123,6 +123,25 @@
 }
 
 @media (max-width: 640px) {
+  .unauthorized-page {
+    padding: 1rem;
+  }
+
+  .unauthorized-card,
+  .unauthorized-note {
+    border-radius: 18px;
+    padding: 1.2rem;
+  }
+
+  .unauthorized-card__code {
+    font-size: clamp(3.4rem, 24vw, 5rem);
+    letter-spacing: 0;
+  }
+
+  .unauthorized-card h1 {
+    line-height: 1.05;
+  }
+
   .unauthorized-card__actions {
     flex-direction: column;
   }

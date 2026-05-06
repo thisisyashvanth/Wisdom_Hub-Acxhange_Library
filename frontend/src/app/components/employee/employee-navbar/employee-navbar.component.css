@@ -36,6 +36,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  min-width: 0;
 }
 
 .employee-nav__link,
@@ -72,5 +73,32 @@
   .employee-nav__links,
   .employee-nav__actions {
     flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 520px) {
+  .employee-nav {
+    padding: 0.85rem;
+  }
+
+  .employee-nav__logo {
+    width: min(9rem, 68vw);
+  }
+
+  .employee-nav__links,
+  .employee-nav__actions {
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .employee-nav__link,
+  .employee-nav__logout {
+    flex: 1 1 calc(50% - 0.5rem);
+    padding: 0.65rem 0.75rem;
+    text-align: center;
+  }
+
+  .employee-nav__role {
+    width: 100%;
   }
 }

@@ -14,7 +14,9 @@
         </label>
     </header>
 
-    <div *ngIf="message" class="hr-catalog__message" [ngClass]="{
+    <div *ngIf="message" class="app-toast hr-catalog__message" [ngClass]="{
+       'app-toast--success': messageType === 'success',
+       'app-toast--error': messageType === 'error',
        'hr-catalog__message--success': messageType === 'success',
        'hr-catalog__message--error': messageType === 'error'
      }">
@@ -38,8 +40,8 @@
         No books matched your search.
     </div>
 
-    <div style="margin-bottom: 10px;">
-        <button (click)="downloadExcel()" class="hr-catalog__action-button">
+    <div class="hr-catalog__toolbar">
+        <button (click)="downloadExcel()" class="hr-catalog__download-button">
             Download Excel
         </button>
     </div>
@@ -68,7 +70,7 @@
                     <td>{{ book.bookNumber || '-' }}</td>
                     <td>{{ book.author }}</td>
                     <td>{{ book.category || 'General' }}</td>
-                    <td>{{ book.isbn }}</td>
+                    <td>{{ getDisplayIsbn(book.isbn) }}</td>
                     <td>{{ book.total_copies }}</td>
                     <td>{{ book.available_copies }}</td>
                     <td>{{ book.total_copies - book.available_copies }}</td>
@@ -82,12 +84,14 @@
                         </span>
                     </td>
                     <td>
-                        <button class="hr-catalog__action-button" (click)="editBook(book.id)">
+                        <div class="hr-catalog__actions">
+                        <button class="hr-catalog__action-button hr-catalog__action-button--edit" (click)="editBook(book.id)">
                             Edit Book
                         </button>
-                        <button class="hr-catalog__action-button" (click)="viewHistory(book.id)">
+                        <button class="hr-catalog__action-button hr-catalog__action-button--history" (click)="viewHistory(book.id)">
                             View History
                         </button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
