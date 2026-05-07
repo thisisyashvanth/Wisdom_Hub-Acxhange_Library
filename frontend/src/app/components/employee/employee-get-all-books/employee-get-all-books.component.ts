@@ -72,17 +72,7 @@ export class EmployeeGetAllBooksComponent {
 
     return err.error?.detail || 'Failed to load books.';
   }
-
-  getDisplayIsbn(isbn: string | null | undefined): string {
-    const value = isbn?.trim();
-
-    if (!value || value.toLowerCase() === 'testing edit again') {
-      return 'Unknown';
-    }
-
-    return value;
-  }
-
+  
 
   // Pagination Version
   // lastKey: any = null;

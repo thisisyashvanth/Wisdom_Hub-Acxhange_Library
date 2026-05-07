@@ -27,7 +27,7 @@
     </div>
 
     <div class="employee-catalog__search">
-        <input type="text" placeholder="Search by Title or Author..." [(ngModel)]="searchText"
+        <input type="text" placeholder="Search by Title or Author or Category" [(ngModel)]="searchText"
             (input)="applyFilter()" />
 
     </div>
@@ -63,18 +63,18 @@
                     <dt>Author</dt>
                     <dd>{{ book.author }}</dd>
                 </div>
-                <div>
+                <!-- <div>
                     <dt>ISBN</dt>
-                    <dd>{{ getDisplayIsbn(book.isbn) }}</dd>
-                </div>
+                    <dd>{{ book.isbn }}</dd>
+                </div> -->
                 <div>
                     <dt>Total Copies</dt>
                     <dd>{{ book.total_copies }}</dd>
                 </div>
-                <div>
+                <!-- <div>
                     <dt>Borrowed</dt>
                     <dd>{{ book.total_copies - book.available_copies }}</dd>
-                </div>
+                </div> -->
             </dl>
 
             <div class="catalog-card__actions">

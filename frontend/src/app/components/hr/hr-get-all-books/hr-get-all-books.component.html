@@ -9,7 +9,7 @@
 
         <label class="hr-catalog__search">
             <span>Search books</span>
-            <input type="text" placeholder="Search by title, author, ISBN, or category" [(ngModel)]="searchText"
+            <input type="text" placeholder="Search by title, author, or category" [(ngModel)]="searchText"
                 (input)="filterBooks()" />
         </label>
     </header>
@@ -55,7 +55,7 @@
                     <th>Book No.</th>
                     <th>Author</th>
                     <th>Category</th>
-                    <th>ISBN</th>
+                    <!-- <th>ISBN</th> -->
                     <th>Total Copies</th>
                     <th>Available</th>
                     <th>Borrowed</th>
@@ -70,7 +70,7 @@
                     <td>{{ book.bookNumber || '-' }}</td>
                     <td>{{ book.author }}</td>
                     <td>{{ book.category || 'General' }}</td>
-                    <td>{{ getDisplayIsbn(book.isbn) }}</td>
+                    <!-- <td>{{ book.isbn }}</td> -->
                     <td>{{ book.total_copies }}</td>
                     <td>{{ book.available_copies }}</td>
                     <td>{{ book.total_copies - book.available_copies }}</td>

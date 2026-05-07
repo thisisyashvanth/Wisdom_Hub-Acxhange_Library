@@ -106,19 +106,9 @@ export class HrGetAllBooksComponent {
     this.filteredBooks = this.books.filter(book =>
       book.title.toLowerCase().includes(term) ||
       book.author.toLowerCase().includes(term) ||
-      this.getDisplayIsbn(book.isbn).toLowerCase().includes(term) ||
+      book.isbn.toLowerCase().includes(term) ||
       book.category?.toLowerCase().includes(term)
     );
-  }
-
-  getDisplayIsbn(isbn: string | null | undefined): string {
-    const value = isbn?.trim();
-
-    if (!value || value.toLowerCase() === 'testing edit again') {
-      return 'Unknown';
-    }
-
-    return value;
   }
 
   borrowBook(bookId: number) {

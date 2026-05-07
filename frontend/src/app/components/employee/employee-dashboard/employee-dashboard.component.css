@@ -48,6 +48,9 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 22px;
   background: linear-gradient(180deg, rgba(11, 24, 37, 0.88), rgba(7, 15, 25, 0.96));
+}
+
+.employee-dashboard__card {
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
 }
 
