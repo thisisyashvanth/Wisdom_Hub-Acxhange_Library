@@ -21,9 +21,12 @@ def attach_book_name(requests: list) -> list:
 
 def _get_fourth_tuesday(from_date: datetime) -> datetime:
     d = from_date.replace(hour=0, minute=0, second=0, microsecond=0)
-    days_until_tuesday = (1 - d.weekday()) % 7
-    first_tuesday = d + timedelta(days=days_until_tuesday)
-    return first_tuesday + timedelta(weeks=4)
+    # Find the most recent Tuesday on or before from_date (look backwards, not forwards).
+    # This ensures that if the issue day is postponed (e.g. to Wednesday), we still
+    # anchor to that same week's Tuesday rather than the next week's Tuesday.
+    days_since_tuesday = (d.weekday() - 1) % 7  # 0 if today is Tue, 1 if Wed, 6 if Mon
+    this_weeks_tuesday = d - timedelta(days=days_since_tuesday)
+    return this_weeks_tuesday + timedelta(weeks=4)
 
     
 # Toggle For Testing
